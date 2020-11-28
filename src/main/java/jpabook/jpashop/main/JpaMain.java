@@ -7,13 +7,8 @@ import javax.persistence.Persistence;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
-/*	데이터 중심 설계의 문제점
- *  - 현재 방식은 객체 설계를 테이블 설계에 맞춘 방식
- *  - 테이블의 외래키를 객체에 그대로 가져옴
- *  - 객체 그래프 탐색이 불가능
- *  - 참조가 없으므로 UML도 잘못됨
- *  (memberId를 가지는게 아니라 진짜 Member를 가지는 것)
- * */
+import jpabook.jpashop.domain.OrderItem;
+
 public class JpaMain {
 
 	public static void main(String[] args) {
@@ -25,16 +20,16 @@ public class JpaMain {
 		tx.begin();
 
 		try {
-
-			// 객체지향스럽지 못한 방법
-			Order order = em.find(Order.class, 1L);
-			Long memberId = order.getMemberId();
+			/* 주문해야 한다면 */
+			// 주문 생성
+			Order order = new Order();
+			//order.addOrderItem(new OrderItem());
 			
-			Member member = em.find(Member.class, memberId);
+			// 양방향 연관관계를 만들지 않아도 주문서 만들어서 set으로 주문 넣어도 된다.
+			OrderItem orderItem = new OrderItem();
+			orderItem.setOrder(order);
 			
-			// 객체그래프 참조로 쭉쭉 찾아가는 방법
-			Member findMember = order.getMember();
-			
+			em.persist(orderItem);
 
 			tx.commit();
 		} catch (Exception e) {

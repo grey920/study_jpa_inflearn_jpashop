@@ -1,10 +1,14 @@
 package jpabook.jpashop.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,10 +22,11 @@ public class Member {
 	private String street;
 	private String zipcode;
 	
-	/* getter, setter
-	 * 꼭 다 만들 필요는 없는데 getter는 가급적 만들어주는게 좋고 setter는 고민할 필요가 있음
-	 * - setter를 막 만들면 아무곳에서 set 할 수 있으니까 코드를 추적하기 어렵다 -> 유지보수성이 떨어진다
-	 * => 생성자를 이용해서 값을 셋팅하고 setter를 최소화하는 것이 좋다 */
+	/* 잘못된 설계지만 예시니까 사용한 것. Member를 보고 orders를 꺼낼 일이 거의 없다. 필요하면 order를 따로 조회하는 것이 맞다. 비즈니스 상 끊어주는게 더 깔끔함*/
+	// 그래도 예를 들어 Order와 양방향 매핑을 한다면
+	@OneToMany(mappedBy = "member") //Order 엔티티에 있는 member
+	private List<Order> orders = new ArrayList<Order>();
+	
 	public Long getId() {
 		return id;
 	}
