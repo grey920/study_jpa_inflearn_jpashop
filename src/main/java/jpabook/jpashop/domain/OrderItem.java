@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class OrderItem { // 주문서
+public class OrderItem extends BaseEntity { // 주문서
 
 	@Id @GeneratedValue
 	@Column(name="ORDER_ITEM_ID")

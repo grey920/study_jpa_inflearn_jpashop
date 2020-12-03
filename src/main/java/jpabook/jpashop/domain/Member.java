@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 	
 	@Id @GeneratedValue//auto
 	@Column(name="MEMBER_ID") // 대문자? -> 회사마다 룰이 다름 (우리회사는 소문자)

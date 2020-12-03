@@ -4,15 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
-
-// 주문 입장에선 어떤 상품에 의해 주문이 되었는지 중요하다.
-// 상품 입장에선 어떤 주문에 의해 상품되어 있는지 그닥 중요하지 않다 -> 상품을 보고 역방향으로 연관관게를 찾아갈만큼 중요하진 않음. (주문서를 보고 아이템을 찾지, 아이템을 보고 어떤 주문서에서 주문이 되었나 찾진 않음)
+/*
+ * 1. Item이 단독으로 쓰일 일이 있나 없나를 생각해야 한다
+ * 	- 없으면 추상 클래스로 만든다.
+ * 2. 상속관계 매핑 전략을 명시. 
+ *  - @Inheritance(strategy = InheritanceType.SINGLE_TABLE) 
+ * */
 @Entity
-public class Item {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // 싱글테이블 전략
+@DiscriminatorColumn
+public abstract class Item extends BaseEntity{
 	
 	@Id @GeneratedValue
 	@Column(name="ITEM_ID")
